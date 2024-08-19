@@ -1,0 +1,95 @@
+<?php
+include('./includes/header.php');
+include('./includes/navbar.php');
+?>
+
+<div class="p-1 md:p-4 sm:ml-64">
+    <div class="md:p-4 mt-14 text-center dark:text-white">
+        <div class="px-3 mx-auto py-3 flex items-center">
+
+            <a href="users.php" class=" text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Back</a>
+        </div>
+
+        <h1 class="mb-5 pb-5 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Edit User</span> </h1>
+
+
+
+        <div class="max-w-md mx-auto bg-green-100 dark:bg-gray-700 rounded-lg p-3 md:p-5 my-10">
+
+            <?= alertMessage(); ?>
+
+            <form action="code.php" method="POST" enctype="multipart/form-data">
+
+
+                <div>
+                    <?php
+
+                    $paramResult = checkParamId('id');
+
+                    if (!is_numeric($paramResult)) {
+                        echo '<h5>' . $paramResult . '</h5>';
+                        return false;
+                    }
+
+                    $user = getById('users', checkParamId('id'));
+
+                    if ($user['status'] == 200) {
+                    ?>
+                        <input type="hidden" required value="<?= $user['data']['id']; ?>" name="userId">
+                        <div class="relative mb-3">
+                            <img src="<?= '../' . $user['data']['image']; ?>" style="width:100px;height:100px;" class="rounded-full mx-auto mb-3" alt="uploaded pic" />
+
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload User Picture</label>
+                            <input type="file" name="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+
+                        </div>
+                        <div class="relative mb-3">
+                            <input type="text" id="name" name="name" required value="<?= $user['data']['name']; ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <label for="name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-green-100 dark:bg-gray-700  px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Name</label>
+                        </div>
+                        <div class="relative mb-3">
+                            <input type="text" id="phone" name="phone" value="<?= $user['data']['phone']; ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <label for="phone" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-green-100 dark:bg-gray-700  px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Phone</label>
+                        </div>
+                        <div class="relative mb-3">
+                            <input type="text" id="email" name="email" value="<?= $user['data']['email']; ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <label for="email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-green-100 dark:bg-gray-700  px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
+                        </div>
+                        <div class="relative mb-3">
+                            <input type="text" id="password" name="password" value="<?= $user['data']['password']; ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <label for="password" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-green-100 dark:bg-gray-700  px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
+                        </div>
+                        <div class="relative mb-3">
+                            <input type="text" id="center" name="center" value="<?= $user['data']['center']; ?>" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <label for="center" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-green-100 dark:bg-gray-700  px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Center</label>
+                        </div>
+                        <div class="mb-3 flex items-center justify-center gap-3">
+                            <select id="role" name="role" class="bg-green-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected>Choose a role</option>
+                                <option value="manager" <?= $user['data']['role'] == 'manager' ? 'selected' : ''; ?>>manager</option>
+                                <option value="employee" <?= $user['data']['role'] == 'employee' ? 'selected' : ''; ?>>employee</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <input name="is_ban" <?= $user['data']['is_ban'] == true ? 'checked' : '' ?> type="checkbox" class="w-7 h-7 text-green-600 bg-green-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Is Ban</label>
+                            </div>
+                            <div>
+                                <button type="submit" name="updateUser" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update</button>
+                            </div>
+                        </div>
+                </div>
+            <?php
+                    } else {
+
+                        echo "<h5>" . $user['message'] . "</h5>";
+                    }
+            ?>
+            </form>
+        </div>
+
+    </div>
+</div>
+<?php include('./includes/footer.php'); ?>
